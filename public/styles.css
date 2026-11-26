@@ -1,0 +1,405 @@
+:root {
+  --bg-primary: #0b0a09;
+  --bg-elevated: #141210;
+  --bg-card: #181512;
+  --text-primary: #f4efe6;
+  --text-secondary: #a89f91;
+  --text-muted: #6e665b;
+  --accent-gold: #d4a359;
+  --accent-amber: #b88438;
+  --accent-glow: rgba(212, 163, 89, 0.16);
+  --border-subtle: rgba(212, 163, 89, 0.22);
+  --error-bg: rgba(190, 58, 48, 0.15);
+  --error-border: #d9534f;
+  --error-text: #f7a6a3;
+  --success-bg: rgba(212, 163, 89, 0.14);
+  --success-border: #d4a359;
+  --success-text: #f3d299;
+  --font-serif: "Cormorant Garamond", "Noto Serif JP", "Georgia", "Times New Roman", serif;
+  --font-sans: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(212, 163, 89, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 85% 90%, rgba(184, 132, 56, 0.05) 0%, transparent 50%);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.site-header {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.brand-kanji {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--accent-gold);
+  border: 1px solid var(--border-subtle);
+  padding: 0.25rem 0.55rem;
+  letter-spacing: 0.18em;
+}
+
+.brand-name-small {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-gold);
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+.hero-section {
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  padding: 3.5rem 2rem;
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, rgba(24, 21, 18, 0.88) 0%, rgba(14, 12, 10, 0.94) 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  position: relative;
+}
+
+.hero-section::before {
+  content: "珈琲 • TOKYO / KYOTO CRAFT";
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.35em;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3.8rem, 8vw, 6rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+  line-height: 1.05;
+  margin-bottom: 0.75rem;
+}
+
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  color: var(--accent-gold);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.75rem;
+}
+
+.hero-divider {
+  width: 56px;
+  height: 1px;
+  background-color: var(--accent-gold);
+  margin: 0 auto 1.75rem;
+  opacity: 0.6;
+}
+
+.hero-philosophy {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto 2.75rem;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent-gold);
+  color: #0b0a09;
+  border-color: var(--accent-gold);
+}
+
+.btn-primary:hover {
+  background-color: #e2b36b;
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.card-panel {
+  max-width: 460px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 2.75rem 2.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+.card-dashboard {
+  max-width: 560px;
+}
+
+.card-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.card-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.35rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background-color: var(--bg-primary);
+  border: 1px solid rgba(212, 163, 89, 0.25);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.alert-box {
+  padding: 1rem 1.15rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.92rem;
+  border-left: 3px solid transparent;
+  display: none;
+}
+
+.alert-box.visible {
+  display: block;
+}
+
+.alert-error {
+  background-color: var(--error-bg);
+  border-left-color: var(--error-border);
+  color: var(--error-text);
+}
+
+.alert-success {
+  background-color: var(--success-bg);
+  border-left-color: var(--success-border);
+  color: var(--success-text);
+}
+
+.form-footer {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.form-footer a {
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+.position-badge {
+  margin: 1.75rem 0;
+  padding: 1.5rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.position-text {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+}
+
+.progress-container {
+  margin: 1.5rem 0 2rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.6rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background-color: #090807;
+  border: 1px solid rgba(212, 163, 89, 0.25);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-amber), var(--accent-gold));
+  width: 0%;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 163, 89, 0.14);
+}
+
+.qr-caption {
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.qr-box {
+  width: 164px;
+  height: 164px;
+  border: 2px solid var(--accent-gold);
+  background-color: var(--bg-primary);
+  background-image:
+    linear-gradient(45deg, rgba(212, 163, 89, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(212, 163, 89, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(212, 163, 89, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(212, 163, 89, 0.08) 75%);
+  background-size: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.1em;
+  box-shadow: inset 0 0 18px rgba(212, 163, 89, 0.12);
+}
+
+.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+}
