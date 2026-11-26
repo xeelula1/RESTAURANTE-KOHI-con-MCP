@@ -1,0 +1,17 @@
+{
+  "name": "kohi-cafeteria",
+  "version": "1.0.0",
+  "description": "Kōhi Cafetería — Backend Waitlist API (Express + better-sqlite3)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node tests/api-test.js"
+  },
+  "dependencies": {
+    "bcrypt": "6.0.0",
+    "better-sqlite3": "13.2.0",
+    "dotenv": "16.6.1",
+    "express": "4.22.3",
+    "jsonwebtoken": "9.0.3"
+  }
+}

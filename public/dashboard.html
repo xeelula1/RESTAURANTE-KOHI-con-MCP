@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Panel — Kōhi</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="/" class="brand-mark">
+      <span class="brand-kanji">珈琲</span>
+      <span class="brand-name-small">Kōhi</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Inicio</a>
+      <button id="logoutBtn" class="btn btn-outline" style="padding: 0.45rem 1rem; font-size: 0.78rem;">
+        Cerrar sesión
+      </button>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <section class="card-panel card-dashboard">
+      <span class="card-eyebrow">Pase privado de degustación</span>
+      <h1 id="greetingTitle" class="card-title">Hola, ...</h1>
+      <p id="userEmail" class="card-description">Cargando tu información de la lista de espera...</p>
+
+      <div id="alertBox" class="alert-box" role="alert"></div>
+
+      <div id="dashboardContent" style="display: none;">
+        <div class="position-badge">
+          <p id="queuePositionText" class="position-text">Eres el #0 de 0</p>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-header">
+            <span>Prioridad en fila</span>
+            <span id="progressPercentLabel">0%</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="qr-section">
+          <span class="qr-caption">Código de invitación personal</span>
+          <div id="qrCodeBox" class="qr-box">QR-0</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    KŌHI SPECIALTY COFFEE • PRIVATE GUEST PASS
+  </footer>
+
+  <script>
+    const token = localStorage.getItem('kohi_token');
+    const alertBox = document.getElementById('alertBox');
+    const dashboardContent = document.getElementById('dashboardContent');
+    const greetingTitle = document.getElementById('greetingTitle');
+    const userEmail = document.getElementById('userEmail');
+    const queuePositionText = document.getElementById('queuePositionText');
+    const progressFill = document.getElementById('progressFill');
+    const progressPercentLabel = document.getElementById('progressPercentLabel');
+    const qrCodeBox = document.getElementById('qrCodeBox');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function showAlert(type, message) {
+      alertBox.className = `alert-box visible ${type === 'error' ? 'alert-error' : 'alert-success'}`;
+      alertBox.textContent = message;
+    }
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('kohi_token');
+      localStorage.removeItem('kohi_user_id');
+      window.location.href = '/login.html';
+    });
+
+    async function loadProfile() {
+      if (!token) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/me', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.status === 401) {
+          localStorage.removeItem('kohi_token');
+          window.location.href = '/login.html';
+          return;
+        }
+
+        const data = await response.json();
+        if (!response.ok) {
+          showAlert('error', data.error || 'No se pudo cargar tu perfil.');
+          return;
+        }
+
+        greetingTitle.textContent = `Hola, ${data.name}`;
+        userEmail.textContent = `Miembro registrado (${data.email})`;
+        queuePositionText.textContent = `Eres el #${data.position} de ${data.total}`;
+
+        const total = Math.max(Number(data.total) || 1, 1);
+        const pos = Math.min(Math.max(Number(data.position) || 1, 1), total);
+        const percentage = total === 1
+          ? 100
+          : Math.max(12, Math.round(((total - pos + 1) / total) * 100));
+
+        progressFill.style.width = `${percentage}%`;
+        progressPercentLabel.textContent = `${percentage}%`;
+
+        const userId = data.id || localStorage.getItem('kohi_user_id') || data.position;
+        qrCodeBox.textContent = `QR-${userId}`;
+
+        dashboardContent.style.display = 'block';
+      } catch (_err) {
+        showAlert('error', 'Error de conexión al consultar /api/me.');
+      }
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>

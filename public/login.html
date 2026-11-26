@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar sesión — Kōhi</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="/" class="brand-mark">
+      <span class="brand-kanji">珈琲</span>
+      <span class="brand-name-small">Kōhi</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">Inicio</a>
+      <a href="/register.html" class="nav-link">Unirme a la lista</a>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <section class="card-panel">
+      <span class="card-eyebrow">Acceso de miembros</span>
+      <h1 class="card-title">Ya tengo cuenta</h1>
+      <p class="card-description">
+        Consulta tu posición actual y tu pase QR de acceso.
+      </p>
+
+      <div id="alertBox" class="alert-box" role="alert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Correo electrónico</label>
+          <input
+            class="form-input"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="tu@email.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Contraseña</label>
+          <input
+            class="form-input"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-full">
+          Entrar a mi panel
+        </button>
+      </form>
+
+      <div class="form-footer">
+        ¿Aún no estás en la lista? <a href="/register.html">Regístrate aquí</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    KŌHI SPECIALTY COFFEE • MEMBER ACCESS
+  </footer>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const alertBox = document.getElementById('alertBox');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function showAlert(type, message) {
+      alertBox.className = `alert-box visible ${type === 'error' ? 'alert-error' : 'alert-success'}`;
+      alertBox.textContent = message;
+    }
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      alertBox.className = 'alert-box';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        showAlert('error', 'Por favor ingresa tu correo y contraseña.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verificando...';
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showAlert('error', data.error || 'Credenciales inválidas.');
+          return;
+        }
+
+        localStorage.setItem('kohi_token', data.token);
+        if (data.user && data.user.id) {
+          localStorage.setItem('kohi_user_id', String(data.user.id));
+        }
+
+        showAlert('success', 'Acceso concedido. Redirigiendo a tu panel...');
+        window.location.href = '/dashboard.html';
+      } catch (_err) {
+        showAlert('error', 'Error de conexión con el servidor.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Entrar a mi panel';
+      }
+    });
+  </script>
+</body>
+</html>
